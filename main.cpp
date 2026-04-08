@@ -23,8 +23,16 @@ public:
         head = NULL;
     }
 
-    // Insert
-    void insert(int id, string name) {
+    // Insert student
+    void insert() {
+        int id;
+        string name;
+
+        cout << "Enter ID: ";
+        cin >> id;
+        cout << "Enter Name: ";
+        cin >> name;
+
         Student* newStudent = new Student(id, name);
 
         if (head == NULL) {
@@ -36,10 +44,17 @@ public:
             }
             temp->next = newStudent;
         }
+
+        cout << "Student Added Successfully!\n";
     }
 
-    // Display
+    // Display students
     void display() {
+        if (head == NULL) {
+            cout << "No records found.\n";
+            return;
+        }
+
         Student* temp = head;
         while (temp != NULL) {
             cout << temp->id << " - " << temp->name << endl;
@@ -47,8 +62,12 @@ public:
         }
     }
 
-    // Search
-    void search(int id) {
+    // Search student
+    void search() {
+        int id;
+        cout << "Enter ID to search: ";
+        cin >> id;
+
         Student* temp = head;
         while (temp != NULL) {
             if (temp->id == id) {
@@ -57,15 +76,24 @@ public:
             }
             temp = temp->next;
         }
-        cout << "Not Found" << endl;
+
+        cout << "Student not found.\n";
     }
 
-    // Delete
-    void remove(int id) {
-        if (head == NULL) return;
+    // Delete student
+    void remove() {
+        int id;
+        cout << "Enter ID to delete: ";
+        cin >> id;
+
+        if (head == NULL) {
+            cout << "List is empty.\n";
+            return;
+        }
 
         if (head->id == id) {
             head = head->next;
+            cout << "Deleted successfully.\n";
             return;
         }
 
@@ -76,24 +104,48 @@ public:
 
         if (temp->next != NULL) {
             temp->next = temp->next->next;
+            cout << "Deleted successfully.\n";
+        } else {
+            cout << "Student not found.\n";
         }
     }
 };
 
 int main() {
     StudentList list;
+    int choice;
 
-    list.insert(1, "Ali");
-    list.insert(2, "Sara");
-    list.insert(3, "Ahmed");
+    do {
+        cout << "\n===== STUDENT MANAGEMENT SYSTEM =====\n";
+        cout << "1. Insert Student\n";
+        cout << "2. Display Students\n";
+        cout << "3. Search Student\n";
+        cout << "4. Delete Student\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
 
-    list.display();
+        switch (choice) {
+            case 1:
+                list.insert();
+                break;
+            case 2:
+                list.display();
+                break;
+            case 3:
+                list.search();
+                break;
+            case 4:
+                list.remove();
+                break;
+            case 5:
+                cout << "Exiting program...\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
 
-    list.search(2);
-    list.remove(2);
-
-    cout << "After deletion:\n";
-    list.display();
+    } while (choice != 5);
 
     return 0;
 }
